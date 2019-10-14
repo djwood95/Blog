@@ -1,4 +1,6 @@
 # blog
+A simple blog project with VueJS and Lumen (PHP)
+
 
 ## Project setup
 ```
