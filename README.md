@@ -7,7 +7,7 @@ A simple blog project with VueJS and Lumen (PHP)
 -- There are likely multiple options that will work. I used the mysql-server ubuntu package:
 ```
 sudo apt-get install mysql-server
-sudo systemctl start mysql
+sudo systemctl start mysqld
 ```
 - PHP >= 7.2
 - OpenSSL PHP Extension
