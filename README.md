@@ -15,9 +15,10 @@ sudo systemctl start mysqld
 - Mbstring PHP Extension
 - PHP CLI Extension
 - PHP JSON extension
+- PHP mysqli extension
 - On linux, you can use something like the following to install php with all of the required extensions:
 ```
-sudo apt-get install php php-cli php-mbstring php-pdo php-common php-json
+sudo apt-get install php php-cli php-mbstring php-pdo php-common php-json php-mysqli
 ```
 
 ### Installation
