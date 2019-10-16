@@ -1,7 +1,7 @@
 <template>
   <section class="section">
       <h2 class="title is-2">Comments ({{commentList.length}})</h2>
-      
+
       <div class="box">
         <h3 class="title is-3">New Comment</h3>
 
@@ -28,56 +28,56 @@
 export default {
   props: ['postId'],
 
-  data() {
+  data () {
     return {
-      name: "",
-      comment: "",
+      name: '',
+      comment: '',
       commentList: [],
       loading: false
     }
   },
 
-  mounted() {
-    this.getComments();
+  mounted () {
+    this.getComments()
   },
 
   methods: {
-    getComments() {
-      this.$http.get(this.$api+'/comments/'+this.postId).then(response => {
-        this.commentList = response.data;
-      });
+    getComments () {
+      this.$http.get(this.$api + '/comments/' + this.postId).then(response => {
+        this.commentList = response.data
+      })
     },
 
-    addComment() {
+    addComment () {
       let data = {
         'name': this.name,
         'comment': this.comment,
         'postId': this.postId
-      };
+      }
 
-      let isValid = true;
-      isValid = this.$refs["name"].checkHtml5Validity();
-      isValid = this.$refs["comment"].checkHtml5Validity();
-      console.log(isValid);
+      let isValid = true
+      isValid = this.$refs['name'].checkHtml5Validity()
+      isValid = this.$refs['comment'].checkHtml5Validity()
+      console.log(isValid)
 
-      if(!isValid) return;
+      if (!isValid) return
 
-      this.loading = true;
-      this.$http.post(this.$api+'/comments/new', data).then(response => {
-        this.commentList = response.data;
+      this.loading = true
+      this.$http.post(this.$api + '/comments/new', data).then(response => {
+        this.commentList = response.data
 
-        this.name = "";
-        this.comment = "";
+        this.name = ''
+        this.comment = ''
 
         this.$buefy.toast.open({
-          message: "Your comment has been added!",
-          type: "is-success",
+          message: 'Your comment has been added!',
+          type: 'is-success',
           duration: 5000
-        });
+        })
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     }
   }
-};
+}
 </script>

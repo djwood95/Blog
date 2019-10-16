@@ -64,13 +64,12 @@ export default {
         return response
       },
       error => {
-
-		this.$buefy.toast.open({
-			message: "Sorry, there was an unknown error",
-			type: 'is-danger',
-			position: 'is-top',
-			duration: 5000
-		})
+        this.$buefy.toast.open({
+          message: 'Sorry, there was an unknown error',
+          type: 'is-danger',
+          position: 'is-top',
+          duration: 5000
+        })
 
         if (error.response && error.response.data) {
           return Promise.reject(error.response.data)
@@ -102,7 +101,7 @@ export default {
     },
 
     setLoggedOut () {
-      this.$router.push("/") // in case we are on protected page
+      this.$router.push('/') // in case we are on protected page
       this.loggedIn = false
       this.username = ''
       localStorage.setItem('loggedIn', false)

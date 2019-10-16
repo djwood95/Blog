@@ -1,11 +1,11 @@
 export const login = {
-  data() {
+  data () {
     return {
       isLoggedIn: false
     }
   },
 
-  created() {
+  created () {
     if (localStorage.getItem('loggedIn') == 'true') {
       this.isLoggedIn = true
     }

@@ -15,21 +15,21 @@
 import Comments from '../components/Comments'
 export default {
 
-  components: {Comments},
+  components: { Comments },
 
-  data() {
+  data () {
     return {
       postId: this.$route.params.postId,
       post: {}
     }
   },
 
-  mounted() {
-    this.$http.get(this.$api+'/post/'+this.postId).then(response => {
-      this.post = response.data[0];
-    });
+  mounted () {
+    this.$http.get(this.$api + '/post/' + this.postId).then(response => {
+      this.post = response.data[0]
+    })
   }
-};
+}
 </script>
 
 <style>

@@ -15,7 +15,14 @@ export default new Router({
     {
       path: '/newPost',
       name: 'newPost',
-      component: () => import('./views/NewPost.vue')
+      component: () => import('./views/NewPost.vue'),
+      props: { mode: 'new' }
+    },
+    {
+      path: '/edit/:postId',
+      name: 'editPost',
+      component: () => import('./views/NewPost.vue'),
+      props: { mode: 'edit' }
     },
     {
       path: '/view/:postId',

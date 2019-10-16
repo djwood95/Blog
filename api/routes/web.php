@@ -105,6 +105,20 @@ $router->group( ['middleware' => 'auth'], function() use ($router) {
         return ['status', true];
     });
 
+    $router->post('/posts/edit', function (Illuminate\Http\Request $request) use ($router) {
+        $postId = $request->input('postId');
+        $title = $request->input('title');
+        $content = $request->input('contents');
+        DB::update("UPDATE posts SET title=:title, content=:content WHERE id=:postId",
+                    [
+                        'title' => $title,
+                        'content' => $content,
+                        'postId' => $postId
+                    ]);
+        
+        return ['status', true];
+    });
+
     $router->get('/test', function() use ($router) {
         return "It Worked!";
     });

@@ -33,25 +33,32 @@
 
 <script>
 export default {
-  data() {
+
+  props: ['mode'],
+
+  data () {
     return {
-      title: "",
-      contents: "",
+      title: '',
+      contents: '',
       loading: false,
       unsavedChanges: false,
       errorBoxActive: false,
       errorList: []
-    };
+    }
   },
 
   watch: {
-    title() {
-      this.unsavedChanges = true;
+    title () {
+      this.unsavedChanges = true
     },
 
-    contents() {
-      this.unsavedChanges = true;
+    contents () {
+      this.unsavedChanges = true
     }
+  },
+
+  mounted () {
+    if (this.mode == 'edit') this.loadPostData()
   },
 
   /*
@@ -65,68 +72,78 @@ export default {
   },
   */
 
-  beforeRouteLeave (to, from , next) {
-      if(this.unsavedChanges) {
-          const answer = window.confirm('Do you really want to leave? You have unsaved changes!')
-          if (answer) next()
-          else next(false)
-      } else {
-          next();
-      }
+  beforeRouteLeave (to, from, next) {
+    if (this.unsavedChanges) {
+      const answer = window.confirm('Do you really want to leave? You have unsaved changes!')
+      if (answer) next()
+      else next(false)
+    } else {
+      next()
+    }
   },
 
   methods: {
-    savePost() {
-      this.loading = true;
+    savePost () {
+      this.loading = true
 
-      //validate inputs
-      /*
-      this.errorList = [];
-      this.errorBoxActive = false;
-      if (this.title.length == 0) {
-        this.errorList.push("Post title is required.");
-      }
+      // validate inputs
+      let isValid = true
+      isValid = this.$refs['title'].checkHtml5Validity()
+      isValid = this.$refs['contents'].checkHtml5Validity()
 
-      if (this.contents.length >= 65535) { //65535 is the max chars that can be stored in MySQL TEXT type
-        this.errorList.push("Post contents have a max length of 65,535 characters.");
-      }
-
-      if (this.title.length >= 255) { //255 is the max chars that can be stored in MySQL TINYTEXT type
-        this.errorList.push("Post title has a max length of 255 characters.");
-      }
-
-      if(this.errorList.length > 0) {
-        this.errorBoxActive = true;
-        return;
-      }
-      */
-
-      let isValid = true;
-      isValid = this.$refs["title"].checkHtml5Validity();
-      isValid = this.$refs["contents"].checkHtml5Validity();
-
-      if(!isValid) return;
+      if (!isValid) return
 
       let data = {
         'title': this.title,
         'contents': this.contents
       }
 
-      this.$http.post(this.$api + "/posts/new", data).then(response => {
+      if (this.mode == 'new') this.saveNewPost(data)
+      else if (this.mode == 'edit') this.saveEditPost(data)
+    },
 
+    saveNewPost (data) {
+      this.$http.post(this.$api + '/posts/new', data).then(response => {
         this.$buefy.toast.open({
-          message: "Your post has been saved!",
-          type: "is-success",
+          message: 'Your post has been saved!',
+          type: 'is-success',
           duration: 5000
-        });
+        })
 
-        this.unsavedChanges = false;
-        this.$router.push("/");
-
+        this.unsavedChanges = false
+        this.$router.push('/')
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
+    },
+
+    saveEditPost (data) {
+      let postId = this.$route.params.postId
+      data['postId'] = postId
+      this.$http.post(this.$api + '/posts/edit', data).then(response => {
+        this.$buefy.toast.open({
+          message: 'Your post has been saved!',
+          type: 'is-success',
+          duration: 5000
+        })
+
+        this.unsavedChanges = false
+        this.$router.push('/')
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+
+    loadPostData () {
+      this.loading = true
+      let postId = this.$route.params.postId
+      this.$http.get(this.$api + '/post/' + postId).then(response => {
+        this.title = response.data[0].title
+        this.contents = response.data[0].content
+      }).finally(() => {
+        this.loading = false
+      })
     }
   }
-};
+}
 </script>
