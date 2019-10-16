@@ -46,3 +46,4 @@ cd .../Blog
 npm run serve
 ```
 - Open localhost:8080
+- The hard-coded username/password is "user"/"password"
